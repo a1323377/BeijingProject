@@ -1,0 +1,13 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /wechat
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wechat
+    username: root
+    password: 1234
+mybatis:
+  mapper-locations: classpath:mapperxml/*.xml
+  type-aliases-package: com.yh.domain
