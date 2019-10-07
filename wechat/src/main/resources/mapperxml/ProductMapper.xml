@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.mapper.ProductMapper">
+  <resultMap id="BaseResultMap" type="com.yh.domain.Product">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_cover" jdbcType="VARCHAR" property="productCover" />
+    <result column="product_status" jdbcType="INTEGER" property="productStatus" />
+    <result column="product_typeid" jdbcType="INTEGER" property="productTypeid" />
+    <result column="product_createtime" jdbcType="TIMESTAMP" property="productCreatetime" />
+    <result column="product_brandid" jdbcType="INTEGER" property="productBrandid" />
+    <result column="product_updatetime" jdbcType="TIMESTAMP" property="productUpdatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, product_name, product_cover, product_status, product_typeid, product_createtime, 
+    product_brandid, product_updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Product" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into product (product_name, product_cover, product_status, 
+      product_typeid, product_createtime, product_brandid, 
+      product_updatetime)
+    values (#{productName,jdbcType=VARCHAR}, #{productCover,jdbcType=VARCHAR}, #{productStatus,jdbcType=INTEGER}, 
+      #{productTypeid,jdbcType=INTEGER}, #{productCreatetime,jdbcType=TIMESTAMP}, #{productBrandid,jdbcType=INTEGER}, 
+      #{productUpdatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Product" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productCover != null">
+        product_cover,
+      </if>
+      <if test="productStatus != null">
+        product_status,
+      </if>
+      <if test="productTypeid != null">
+        product_typeid,
+      </if>
+      <if test="productCreatetime != null">
+        product_createtime,
+      </if>
+      <if test="productBrandid != null">
+        product_brandid,
+      </if>
+      <if test="productUpdatetime != null">
+        product_updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCover != null">
+        #{productCover,jdbcType=VARCHAR},
+      </if>
+      <if test="productStatus != null">
+        #{productStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productTypeid != null">
+        #{productTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="productCreatetime != null">
+        #{productCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productBrandid != null">
+        #{productBrandid,jdbcType=INTEGER},
+      </if>
+      <if test="productUpdatetime != null">
+        #{productUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.Product">
+    <!--@mbg.generated-->
+    update product
+    <set>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCover != null">
+        product_cover = #{productCover,jdbcType=VARCHAR},
+      </if>
+      <if test="productStatus != null">
+        product_status = #{productStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productTypeid != null">
+        product_typeid = #{productTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="productCreatetime != null">
+        product_createtime = #{productCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productBrandid != null">
+        product_brandid = #{productBrandid,jdbcType=INTEGER},
+      </if>
+      <if test="productUpdatetime != null">
+        product_updatetime = #{productUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yh.domain.Product">
+    <!--@mbg.generated-->
+    update product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      product_cover = #{productCover,jdbcType=VARCHAR},
+      product_status = #{productStatus,jdbcType=INTEGER},
+      product_typeid = #{productTypeid,jdbcType=INTEGER},
+      product_createtime = #{productCreatetime,jdbcType=TIMESTAMP},
+      product_brandid = #{productBrandid,jdbcType=INTEGER},
+      product_updatetime = #{productUpdatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据二级类目id查询所包括的所有商品分类(所有已上架的)-->
+  <select id="selectAllThirdTypeBySecondTypeId" resultMap="selectAllThirdTypeBySecondTypeIdResultMap" parameterType="java.lang.Integer">
+    SELECT p.id pid, p.product_name pdn, p.product_cover pdc FROM product p
+    WHERE p.product_status in (0,1,2) and product_typeid = #{secondTypeId}
+  </select>
+  <resultMap id="selectAllThirdTypeBySecondTypeIdResultMap" type="com.yh.domain.Product">
+    <result property="id" column="pid"></result>
+    <result property="productName" column="pdn"></result>
+    <result property="productCover" column="pdc"></result>
+  </resultMap>
+
+  <!--根据商品id查询商品详情-->
+  <select id="selectProductDetail" resultMap="selectProductDetailResultMap" parameterType="java.lang.Integer">
+    SELECT p.id pid,p.product_name pname,i.img_src src,sk.sku_price price,sk.sku_num num FROM product p LEFT JOIN
+      goodsmiddle g ON p.id = g.middle_productid LEFT JOIN sku_store sk ON sk.sku_productid = p.id LEFT JOIN
+      img i ON sk.id = i.img_productid LEFT JOIN brand b ON b.id = p.product_brandid LEFT JOIN
+      standard st on st.standard_productid = p.id LEFT JOIN standardvalue stv on stv.sv_standardid = st.id
+    WHERE p.product_status in (0,1,2) and p.id = #{id}
+  </select>
+  <resultMap id="selectProductDetailResultMap" type="com.yh.domain.Product">
+    <result column="pid" property="id"></result>
+    <result column="pname" property="productName"></result>
+    <result column="src" property="src"></result>
+    <result column="price" property="price"></result>
+    <result column="num" property="num"></result>
+  </resultMap>
+
+</mapper>

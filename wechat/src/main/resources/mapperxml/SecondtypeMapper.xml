@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.mapper.SecondtypeMapper">
+  <resultMap id="BaseResultMap" type="com.yh.domain.Secondtype">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="second_firstid" jdbcType="INTEGER" property="secondFirstid" />
+    <result column="second_name" jdbcType="VARCHAR" property="secondName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, second_firstid, second_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from secondtype
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from secondtype
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Secondtype" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into secondtype (second_firstid, second_name)
+    values (#{secondFirstid,jdbcType=INTEGER}, #{secondName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Secondtype" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into secondtype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="secondFirstid != null">
+        second_firstid,
+      </if>
+      <if test="secondName != null">
+        second_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="secondFirstid != null">
+        #{secondFirstid,jdbcType=INTEGER},
+      </if>
+      <if test="secondName != null">
+        #{secondName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.Secondtype">
+    <!--@mbg.generated-->
+    update secondtype
+    <set>
+      <if test="secondFirstid != null">
+        second_firstid = #{secondFirstid,jdbcType=INTEGER},
+      </if>
+      <if test="secondName != null">
+        second_name = #{secondName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yh.domain.Secondtype">
+    <!--@mbg.generated-->
+    update secondtype
+    set second_firstid = #{secondFirstid,jdbcType=INTEGER},
+      second_name = #{secondName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--查询所有二级类目信息-->
+    <select id="selectAllSecondType" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from secondtype
+    </select>
+
+  <!--根据一级类目id查询对应的所有二级类目下的内容，用于分类展示时展示对应的二级类目-->
+  <select id="selectAllSecondTypeByFirstTypeId" resultMap="BaseResultMap">
+    SELECT * FROM secondtype s WHERE s.second_firstid = #{firstTypeId}
+  </select>
+</mapper>

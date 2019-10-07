@@ -17,7 +17,35 @@
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage")
-		$(".loading").fadeOut(300)
+		$(".loading").fadeOut(300);
+
+
+        $.ajax({
+            type:"get",
+            url:"http://0j9cdon.hn3.mofasuidao.cn/wechat/selectAllFirstType.do",
+            dataType:"json",
+            success:function (data) {
+                alert(data);
+                $(".assort").append("<ul>");
+                for (var i = 0; i < data.length; i++){
+                    $(".assort").append("<li onclick='showSecondType("+data.get(i).id+")'><span>"+data.get(i).firstName+"</span></li>");
+                }
+                $(".assort").append("</ul>");
+            }
+        });
+
+        function showSecondType(id) {
+            $.ajax({
+                type:"get",
+                url:"http://0j9cdon.hn3.mofasuidao.cn/wechat/selectAllSecondTypeByFirstTypeId.do",
+                data:{"firstTypeId":id},
+                dataType:"json",
+                success:function (data) {
+
+                }
+            })
+        }
+
 	})
 </script>
 </head>
@@ -88,10 +116,40 @@
 	            </div>
 	        </div>
 	    </div>
-		
+		<script type="text/javascript">
+			$(function () {
+				$.ajax({
+					type:"get",
+					url:"http://0j9cdon.hn3.mofasuidao.cn/wechat/selectAllFirstType.do",
+					dataType:"json",
+					success:function (data) {
+					    alert(data);
+						$(".assort").append("<ul>");
+						for (var i = 0; i < data.length; i++){
+						    $(".assort").append("<li onclick='showSecondType("+data.get(i).id+")'><span>"+data.get(i).firstName+"</span></li>");
+						}
+						$(".assort").append("</ul>");
+                    }
+				});
+				function showSecondType(id) {
+					$.ajax({
+						type:"get",
+						url:"http://0j9cdon.hn3.mofasuidao.cn/wechat/selectAllSecondTypeByFirstTypeId.do",
+						data:{"id":id},
+						dataType:"json",
+						success:function (data) {
+                            for (var i = 0; i < data.length; i++){
+                                $("#sec").append("<h3><em></em>精品服装</h3>");
+                                $("#sec").append("")
+                            }
+                        }
+					})
+                }
+            });
+		</script>
 		<div class="contaniner clearfloat">
 			<aside class="assort">
-				<ul>
+				<!--<ul>
 					<li class="active">
 						<span>精品女装</span>
 					</li>
@@ -107,11 +165,11 @@
 					<li>
 						<span>精品男装</span>
 					</li>
-				</ul>
+				</ul>-->
 			</aside>
 			
 			<section class="assort-cont clearfloat">
-				<div class="sideMenu clearfloat">
+				<div class="sideMenu clearfloat" id = "sec">
 					<h3><em></em>精品服装</h3>
 					<div class="slist clearfloat box-s">
 						<div class="list clearfloat fl">
