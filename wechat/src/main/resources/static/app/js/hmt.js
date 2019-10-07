@@ -1,26 +1,35 @@
 // JavaScript Document
-$(function(){
-    var loc=window.location.href;
-    if(loc.split("?").length>1){
-        var param=loc.split("&")[1].split("=");
-        if(param.length>1){
-            var code =param[1];
-            $.ajax({
-                type:"post",
-                url:"http://jusavng.hn3.mofasuidao.cn/wechat/code.do",
-                data:{"code":code},
-                dataType:"json",
-                async:false,
-                success:function (data) {
-                    alert("111");
-                },
-                error:function(){
-                    alert("222");
-                }
-            });
-	}
-
+function hasParam(href,paramName){
+    var loc=href.split("?");
+    //alert(loc);
+    if(loc.length>1){
+        loc=loc[1].split("&");
+        for(var i=0;i<loc.length;i++){
+            if(loc[i].indexOf(paramName)>=0){
+                return loc[i].split("=")[1];
+            }
+        }
+        return "";
     }
+}
+$(function(){
+    var code =hasParam(window.location.href,"code");
+    if(code!="") {
+        $.ajax({
+            type: "post",
+            url: "http://jusavng.hn3.mofasuidao.cn/wechat/code.do",
+            data: {"code": code},
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                alert("111");
+            },
+            error: function () {
+                alert("222");
+            }
+        });
+    }
+
 	//计算内容上下padding
 	reContPadding({main:"#main",header:"#header",footer:"#footer"});
 	function reContPadding(o){

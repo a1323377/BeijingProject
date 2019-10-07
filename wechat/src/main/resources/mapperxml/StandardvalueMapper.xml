@@ -116,4 +116,15 @@
       sv_standardvalue = #{svStandardvalue,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+<<<<<<< HEAD
+=======
+  <resultMap id="standardValueMap" type="map">
+    <id property="id" column="id"></id>
+    <result property="standardName" column="standard_name"></result>
+    <result property="standardValue" column="sv_standardvalue"></result>
+  </resultMap>
+  <select id="selectStandardValueByProductId" resultMap="standardValueMap">
+    select standard_name,sv_standardvalue,standardvalue.id id from standard inner join standardvalue on standard.id=standardvalue.sv_standardid and standard.standard_productid=#{productId} and sv_status=0
+  </select>
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
 </mapper>

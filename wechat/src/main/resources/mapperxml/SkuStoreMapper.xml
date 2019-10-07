@@ -14,11 +14,19 @@
     <result column="sku_saleprice" jdbcType="INTEGER" property="skuSaleprice" />
     <result column="sku_createtime" jdbcType="TIMESTAMP" property="skuCreatetime" />
     <result column="sku_updatetime" jdbcType="TIMESTAMP" property="skuUpdatetime" />
+<<<<<<< HEAD
+=======
+    <result column="sku_salecout" jdbcType="INTEGER" property="skuSalecout" />
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, sku_productid, sku_middleid, sku_color, sku_num, sku_price, sku_status, sku_activeprice, 
+<<<<<<< HEAD
     sku_saleprice, sku_createtime, sku_updatetime
+=======
+    sku_saleprice, sku_createtime, sku_updatetime, sku_salecout
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -37,11 +45,19 @@
     insert into sku_store (sku_productid, sku_middleid, sku_color, 
       sku_num, sku_price, sku_status, 
       sku_activeprice, sku_saleprice, sku_createtime, 
+<<<<<<< HEAD
       sku_updatetime)
     values (#{skuProductid,jdbcType=INTEGER}, #{skuMiddleid,jdbcType=INTEGER}, #{skuColor,jdbcType=VARCHAR}, 
       #{skuNum,jdbcType=INTEGER}, #{skuPrice,jdbcType=INTEGER}, #{skuStatus,jdbcType=INTEGER}, 
       #{skuActiveprice,jdbcType=INTEGER}, #{skuSaleprice,jdbcType=INTEGER}, #{skuCreatetime,jdbcType=TIMESTAMP}, 
       #{skuUpdatetime,jdbcType=TIMESTAMP})
+=======
+      sku_updatetime, sku_salecout)
+    values (#{skuProductid,jdbcType=INTEGER}, #{skuMiddleid,jdbcType=INTEGER}, #{skuColor,jdbcType=VARCHAR}, 
+      #{skuNum,jdbcType=INTEGER}, #{skuPrice,jdbcType=INTEGER}, #{skuStatus,jdbcType=INTEGER}, 
+      #{skuActiveprice,jdbcType=INTEGER}, #{skuSaleprice,jdbcType=INTEGER}, #{skuCreatetime,jdbcType=TIMESTAMP}, 
+      #{skuUpdatetime,jdbcType=TIMESTAMP}, #{skuSalecout,jdbcType=INTEGER})
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.SkuStore" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -77,6 +93,12 @@
       <if test="skuUpdatetime != null">
         sku_updatetime,
       </if>
+<<<<<<< HEAD
+=======
+      <if test="skuSalecout != null">
+        sku_salecout,
+      </if>
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="skuProductid != null">
@@ -109,6 +131,12 @@
       <if test="skuUpdatetime != null">
         #{skuUpdatetime,jdbcType=TIMESTAMP},
       </if>
+<<<<<<< HEAD
+=======
+      <if test="skuSalecout != null">
+        #{skuSalecout,jdbcType=INTEGER},
+      </if>
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.SkuStore">
@@ -145,6 +173,12 @@
       <if test="skuUpdatetime != null">
         sku_updatetime = #{skuUpdatetime,jdbcType=TIMESTAMP},
       </if>
+<<<<<<< HEAD
+=======
+      <if test="skuSalecout != null">
+        sku_salecout = #{skuSalecout,jdbcType=INTEGER},
+      </if>
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -160,7 +194,82 @@
       sku_activeprice = #{skuActiveprice,jdbcType=INTEGER},
       sku_saleprice = #{skuSaleprice,jdbcType=INTEGER},
       sku_createtime = #{skuCreatetime,jdbcType=TIMESTAMP},
+<<<<<<< HEAD
       sku_updatetime = #{skuUpdatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+=======
+      sku_updatetime = #{skuUpdatetime,jdbcType=TIMESTAMP},
+      sku_salecout = #{skuSalecout,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <resultMap id="skuOrderByCreateTimeMap" type="map">
+        <id property="id" column="id"></id>
+        <result property="productName" column="product_name"></result>
+        <result property="skuPrice" column="sku_price"></result>
+        <result property="imgSrc" column="img_src"></result>
+        <result property="skuId" column="skuId"></result>
+        <result property="productId" column="sku_productid"></result>
+    </resultMap>
+  <select id="selectSkuOrderByCreateTime" resultMap="skuOrderByCreateTimeMap">
+      select sku_productid, sku_store.id skuId, product_name,min(sku_price) sku_price,img_src,img.id id,sku_createtime
+      from sku_store
+      inner join product on sku_store.sku_productid=product.id
+      INNER join img on sku_store.id=img.img_productid
+      and img_status=0 and img_type=0 and product_status=0
+      group by product_name
+      order by sku_createtime DESC
+  </select>
+  <resultMap id="selectSkuRushMap" type="map">
+    <id property="id" column="id"></id>
+    <result property="productName" column="product_name"></result>
+    <result property="imgSrc" column="img_src"></result>
+    <result property="activePrice" column="sku_activeprice"></result>
+      <result property="skuId" column="skuId"></result>
+      <result property="productId" column="sku_productid"></result>
+  </resultMap>
+  <select id="selectSkuRush" resultMap="selectSkuRushMap">
+    select sku_productid,sku_store.id skuId, product_name,sku_activeprice,img_src,sku_createtime,img.id
+    from sku_store
+      inner join product on sku_store.sku_productid=product.id
+      INNER join img on sku_store.id=img.img_productid
+      and img_status=0 and img_type=0 and product_status=1
+    order by sku_createtime DESC;
+  </select>
+    <resultMap id="skuDetailMap" type="map">
+        <id property="id" column="id"></id>
+        <result property="productName" column="product_name"></result>
+        <result property="minPrice" column="minprice"></result>
+        <result property="maxPrice" column="maxprice"></result>
+    </resultMap>
+    <select id="selectSkuDetail" resultMap="skuDetailMap">
+        select product.id id, product_name,min(sku_price) minprice,max(sku_price) maxprice
+        from sku_store inner join product on sku_store.sku_productid=product.id
+            and product_status=0 where product.id=#{skuId}
+    </select>
+    <resultMap id="skuScrollImgMap" type="map">
+        <id property="id" column="id"></id>
+        <result property="img" column="img_src"></result>
+    </resultMap>
+    <select id="selectSkuScrollImg" resultMap="skuScrollImgMap">
+        select img.id id,img_src from img inner join sku_store on sku_store.id=img.img_productid and sku_store.id=#{skuId} and img_type=1 and img_status=0
+    </select>
+    <resultMap id="skuByProductIdMap" type="map">
+        <id property="id" column="id"></id>
+        <result property="skuColor" column="sku_color"></result>
+        <result property="skuNum" column="sku_num"></result>
+        <result property="skuPrice" column="sku_price"></result>
+    </resultMap>
+    <select id="selectSkuByProductId" resultMap="skuByProductIdMap">
+        select id,sku_color,sku_num,sku_price from sku_store where sku_store.sku_productid=#{productId} and sku_status=0
+    </select>
+    <resultMap id="skuBySkuIdMap" type="com.yh.domain.SkuStore">
+        <id property="id" column="id"></id>
+        <result property="skuPrice" column="sku_price"></result>
+        <result property="skuNum" column="sku_num"></result>
+    </resultMap>
+    <select id="selectSkuBySkuId" resultMap="skuBySkuIdMap">
+        select sku_price,sku_num,id from sku_store where id=#{skuId}
+    </select>
+>>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
 </mapper>

@@ -1,7 +1,15 @@
 package com.yh.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.yh.commons.ResponseJson;
 import com.yh.commons.WeChatCommon;
+import com.yh.domain.Scroll;
+import com.yh.domain.SkuStore;
 import com.yh.domain.WxUser;
+import com.yh.service.ScrollService;
+import com.yh.service.SkuStoreService;
+import com.yh.service.StandardValueService;
 import com.yh.service.WxUserService;
 import com.yh.utils.EncryptUtil;
 import com.yh.utils.WeChatUtil;
@@ -13,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -20,7 +29,12 @@ import java.util.UUID;
 public class WeChatController {
     @Resource(name = "wxUserServiceImpl")
     WxUserService wxUserService;
-
+    @Resource(name = "scrollServiceImpl")
+    ScrollService scrollService;
+    @Resource(name = "skuStoreServiceImpl")
+    SkuStoreService skuStoreService;
+    @Resource(name = "standardValueServiceImpl")
+    StandardValueService standardValueService;
     /***
      * 微信平台验证服务器
      * @param weChatCommon
@@ -90,5 +104,49 @@ public class WeChatController {
         map.put("appMessages",appMessages);
         map.put("timeline",timeline);
         return  map;
+    }
+
+    /**
+     * 初始化首页
+     * @return
+     */
+    @RequestMapping(value = "init",method = RequestMethod.POST)
+    public ResponseJson initIndex(int pageIndex){
+        Map<String,Object> dataMap=new HashMap<>();
+        List<Scroll> indexScroll=scrollService.selectScrollOrderByCreateTime();
+        PageHelper.startPage(pageIndex,3);
+        List<Map<String,String>> skuInfo=skuStoreService.selectSkuOrderByCreateTime();
+        PageInfo<Map<String,String>> pageInfo=new PageInfo<>(skuInfo);
+        System.out.println(pageInfo.toString());
+        List<Map<String,String>> skuRush=skuStoreService.selectSkuRush();
+        dataMap.put("scrollImg",indexScroll);
+        dataMap.put("skuInfo",skuInfo);
+        dataMap.put("skuRush",skuRush);
+        dataMap.put("skuPage",pageInfo);
+        return new ResponseJson(0,"success",dataMap);
+    }
+    @RequestMapping(value = "getgoods",method = RequestMethod.POST)
+    public ResponseJson getGoods(int pageIndex){
+        Map<String,Object> dataMap=new HashMap<>();
+        PageHelper.startPage(pageIndex,3);
+        List<Map<String,String>> skuInfo=skuStoreService.selectSkuOrderByCreateTime();
+        dataMap.put("skuInfo",skuInfo);
+        return  new ResponseJson(0,"success",dataMap);
+    }
+
+    @RequestMapping(value = "getdetails",method = RequestMethod.GET)
+    public ResponseJson getDetails(int skuId,int productId){
+        Map<String,String> skuDetail=skuStoreService.selectSkuDetail(skuId);
+        List<Map<String,String>> skuScrollImg=skuStoreService.selectSkuScrollImg(skuId);
+        List<Map<String,String>> skus=skuStoreService.selectSkuByProductId(productId);
+        List<Map<String,String>> standardValue=standardValueService.selectStandardValueByProductId(productId);
+        SkuStore sku=skuStoreService.selectSku(skuId);
+        Map<String,Object> dataMap=new HashMap<>();
+        dataMap.put("skus",skus);
+        dataMap.put("skuDetail",skuDetail);
+        dataMap.put("skuScrollImg",skuScrollImg);
+        dataMap.put("sku",sku);
+        dataMap.put("standardValue",standardValue);
+        return  new ResponseJson(0,"success",dataMap);
     }
 }
