@@ -42,17 +42,13 @@
 	    <div id="main" class="mui-clearfix">
 	    	<div class="banner swiper-container">
 	            <div class="swiper-wrapper">
-	                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.png" alt=""></a></div>
-	                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.png" alt=""></a></div>
-	                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.png" alt=""></a></div>
-	                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.png" alt=""></a></div>
+
 	            </div>
 	            <div class="swiper-pagination"></div>
 	        </div>
 	        <div class="inte-top clearfloat box-s">
 	        	<div class="left clearfloat fl">
-	        		<p class="tit">XXX夏季流行女装</p>
-	        		<p class="price"><span>500</span>元<samp>￥208元</samp></p>
+                    <p class="price"></p>
 	        	</div>
 	        	<div class="right clearfloat fr">
 	        		<i class="iconfont icon-shoucang"></i>
@@ -60,13 +56,15 @@
 	        	</div>
 	        </div>
 	        <div class="addj clearfloat">
-	        	<ul>
+                <div id="skucolor"></div>
+	        	<!--<ul>
 	        		<li class="num">商品数量</li>
 	        		<li class="fuhao"><i class="iconfont icon-jian"></i></li>
 	        		<li class="shu">1</li>
 	        		<li class="fuhao"><i class="iconfont icon-jia-copy"></i></li>
 	        		<li class="last">库存96件</li>
-	        	</ul>
+	        	</ul>-->
+                <div id="number"></div>
 	        </div>
 	        <article class="detail-article">
 				<nav>
@@ -75,11 +73,9 @@
 						<li id="talkbox2">商品评价(4)</li>
 					</ul>
 				</nav>
-
 				<section class="talkbox1">
-					<img src="upload/21.png"/>
-				</section>
 
+				</section>
 				<section class="talkbox2" style="display: none;">
 					<ul class="talk">
 						<li>
@@ -166,7 +162,6 @@
 						</li>
 					</ul>
 				</section>
-				
 			</article>
 	    </div>
 	    
@@ -188,16 +183,79 @@
 	<script src="js/swiper.jquery.min.js"></script>
 	<!--插件-->
 	<script src="js/global.js"></script>
-	<script >
+	<script>
 	    $(function () {
-	        var banner = new Swiper('.banner',{
-	            autoplay: 5000,
-	            pagination : '.swiper-pagination',
-	            paginationClickable: true,
-	            lazyLoading : true,
-	            loop:true
-	        });
-	
+//http://jusavng.hn3.mofasuidao.cn/app/pro-detail.html?skuId=1&code=2
+	        //alert(window.location.href);
+            var skuId=hasParam(window.location.href,"skuId");
+            var productId=hasParam(window.location.href,"productId");
+            $.ajax({
+                type:"get",
+                url:"http://jusavng.hn3.mofasuidao.cn/wechat/getdetails.do",
+                data:{"skuId":skuId,"productId":productId},
+                dataType:"json",
+                success:function (data) {
+                    var svalue="";
+                    var valueName="";
+                    for(var i=0;i<data.data.standardValue.length;i++){
+                        if(valueName==data.data.standardValue[i].standardName){
+                            svalue+="<a>"+data.data.standardValue[i].standardValue+"&nbsp;&nbsp;</a>";
+                        }else{
+                            svalue+="<br/>";
+                            svalue+="<label>"+data.data.standardValue[i].standardName+":&nbsp;&nbsp;</label>";
+                            svalue+="<a>"+data.data.standardValue[i].standardValue+"&nbsp;&nbsp;</a>";
+                        }
+                        valueName=data.data.standardValue[i].standardName;
+                    }
+                    $(".talkbox1").append(svalue).css("fontSize","16px");
+                    $(".price").prev().text(data.data.skuDetail.productName);
+                    if(data.data.skuDetail.minPrice==data.data.skuDetail.maxPrice){
+                        $(".price").html("<span>"+data.data.skuDetail.minPrice+"</span>元")
+                    }else{
+                        $(".price").html("<span>"+data.data.skuDetail.minPrice+"</span>"+
+                            "—"+data.data.skuDetail.maxPrice+"元");
+                    }
+                    var scroll="";
+                    for(var i=0;i<data.data.skuScrollImg.length;i++){
+                        scroll+="<div class=\"swiper-slide\"><a href=\"javascript:void(0)\"><img class=\"swiper-lazy\" data-src=\""+data.data.skuScrollImg[i].img+"\" alt=\"\"></a></div>";
+                    }
+                    $(".swiper-wrapper").append(scroll);
+                    var banner = new Swiper('.banner',{
+                        autoplay: 5000,
+                        pagination : '.swiper-pagination',
+                        paginationClickable: true,
+                        lazyLoading : true,
+                        loop:true
+                    });
+                    var skus="<label>请选择颜色:</label>";
+                    for(var i=0;i<data.data.skus.length;i++){
+                        skus+="<a href='javascript:void(0);' data='"+data.data.skus[i].id+"' name='choose'>"+data.data.skus[i].skuColor+"&nbsp;"+"</a>";
+                    }
+                    $("#skucolor").append(skus).css({
+                        fontSize:"16px"
+                    });
+                    $("a[name=choose]").bind("click",function () {
+                        var skuId1=$(this).attr("data");
+                        $.ajax({
+                            type:"get",
+                            url:"http://jusavng.hn3.mofasuidao.cn/wechat/getdetails.do",
+                            data:{"skuId":skuId1,"productId":productId},
+                            dataType:"json",
+                            success:function (data) {
+                                $("#number").html("<ul>\n" +
+                                    "<li class=\"num\">商品数量</li>\n" +
+                                    "<li class=\"fuhao\"><i class=\"iconfont icon-jian\"></i></li>\n" +
+                                    "<li class=\"shu\">1</li>\n" +
+                                    "<li class=\"fuhao\"><i class=\"iconfont icon-jia-copy\"></i></li>\n" +
+                                    "<li class=\"last\">库存"+data.data.sku.skuNum+"件</li>\n" +
+                                    "</ul>")
+                                $(".price").html("<span>"+data.data.sku.skuPrice+"</span>元");
+                            }
+                        });
+                    });
+                }
+            });
+
 	         mui('.pop-schwrap .sch-input').input();
 	        var deceleration = mui.os.ios?0.003:0.0009;
 	         mui('.pop-schwrap .scroll-wrap').scroll({
@@ -212,20 +270,16 @@
 	                $('.pop-schwrap .sch-input').focus();
 	            }
 	        });
-	        
 	        $('.article li').click(function(){
-
-			$(this).addClass('article-active').siblings().removeClass('article-active');
-			if($(this).attr("id")=="talkbox1"){
-				$('.talkbox1').show();
-				$('.talkbox2').hide();
-			}else{
-				$('.talkbox2').show();
-				$('.talkbox1').hide();
-			}
-
-		});	
-	
+                $(this).addClass('article-active').siblings().removeClass('article-active');
+                if($(this).attr("id")=="talkbox1"){
+                    $('.talkbox1').show();
+                    $('.talkbox2').hide();
+                }else{
+                    $('.talkbox2').show();
+                    $('.talkbox1').hide();
+                }
+		    });
 	    });
 	</script>
 </html>

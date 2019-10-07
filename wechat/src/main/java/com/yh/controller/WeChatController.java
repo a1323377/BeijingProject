@@ -5,9 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.yh.commons.ResponseJson;
 import com.yh.commons.WeChatCommon;
 import com.yh.domain.Scroll;
+import com.yh.domain.SkuStore;
 import com.yh.domain.WxUser;
 import com.yh.service.ScrollService;
 import com.yh.service.SkuStoreService;
+import com.yh.service.StandardValueService;
 import com.yh.service.WxUserService;
 import com.yh.utils.EncryptUtil;
 import com.yh.utils.WeChatUtil;
@@ -31,6 +33,8 @@ public class WeChatController {
     ScrollService scrollService;
     @Resource(name = "skuStoreServiceImpl")
     SkuStoreService skuStoreService;
+    @Resource(name = "standardValueServiceImpl")
+    StandardValueService standardValueService;
     /***
      * 微信平台验证服务器
      * @param weChatCommon
@@ -127,6 +131,22 @@ public class WeChatController {
         PageHelper.startPage(pageIndex,3);
         List<Map<String,String>> skuInfo=skuStoreService.selectSkuOrderByCreateTime();
         dataMap.put("skuInfo",skuInfo);
+        return  new ResponseJson(0,"success",dataMap);
+    }
+
+    @RequestMapping(value = "getdetails",method = RequestMethod.GET)
+    public ResponseJson getDetails(int skuId,int productId){
+        Map<String,String> skuDetail=skuStoreService.selectSkuDetail(skuId);
+        List<Map<String,String>> skuScrollImg=skuStoreService.selectSkuScrollImg(skuId);
+        List<Map<String,String>> skus=skuStoreService.selectSkuByProductId(productId);
+        List<Map<String,String>> standardValue=standardValueService.selectStandardValueByProductId(productId);
+        SkuStore sku=skuStoreService.selectSku(skuId);
+        Map<String,Object> dataMap=new HashMap<>();
+        dataMap.put("skus",skus);
+        dataMap.put("skuDetail",skuDetail);
+        dataMap.put("skuScrollImg",skuScrollImg);
+        dataMap.put("sku",sku);
+        dataMap.put("standardValue",standardValue);
         return  new ResponseJson(0,"success",dataMap);
     }
 }

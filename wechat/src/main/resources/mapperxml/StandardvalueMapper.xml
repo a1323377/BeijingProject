@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.mapper.StandardvalueMapper">
+  <resultMap id="BaseResultMap" type="com.yh.domain.Standardvalue">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sv_productid" jdbcType="INTEGER" property="svProductid" />
+    <result column="sv_standardid" jdbcType="INTEGER" property="svStandardid" />
+    <result column="sv_createtime" jdbcType="TIMESTAMP" property="svCreatetime" />
+    <result column="sv_updatetime" jdbcType="TIMESTAMP" property="svUpdatetime" />
+    <result column="sv_status" jdbcType="INTEGER" property="svStatus" />
+    <result column="sv_standardvalue" jdbcType="VARCHAR" property="svStandardvalue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sv_productid, sv_standardid, sv_createtime, sv_updatetime, sv_status, sv_standardvalue
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from standardvalue
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from standardvalue
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Standardvalue" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standardvalue (sv_productid, sv_standardid, sv_createtime, 
+      sv_updatetime, sv_status, sv_standardvalue
+      )
+    values (#{svProductid,jdbcType=INTEGER}, #{svStandardid,jdbcType=INTEGER}, #{svCreatetime,jdbcType=TIMESTAMP}, 
+      #{svUpdatetime,jdbcType=TIMESTAMP}, #{svStatus,jdbcType=INTEGER}, #{svStandardvalue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Standardvalue" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standardvalue
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="svProductid != null">
+        sv_productid,
+      </if>
+      <if test="svStandardid != null">
+        sv_standardid,
+      </if>
+      <if test="svCreatetime != null">
+        sv_createtime,
+      </if>
+      <if test="svUpdatetime != null">
+        sv_updatetime,
+      </if>
+      <if test="svStatus != null">
+        sv_status,
+      </if>
+      <if test="svStandardvalue != null">
+        sv_standardvalue,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="svProductid != null">
+        #{svProductid,jdbcType=INTEGER},
+      </if>
+      <if test="svStandardid != null">
+        #{svStandardid,jdbcType=INTEGER},
+      </if>
+      <if test="svCreatetime != null">
+        #{svCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svUpdatetime != null">
+        #{svUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svStatus != null">
+        #{svStatus,jdbcType=INTEGER},
+      </if>
+      <if test="svStandardvalue != null">
+        #{svStandardvalue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.Standardvalue">
+    <!--@mbg.generated-->
+    update standardvalue
+    <set>
+      <if test="svProductid != null">
+        sv_productid = #{svProductid,jdbcType=INTEGER},
+      </if>
+      <if test="svStandardid != null">
+        sv_standardid = #{svStandardid,jdbcType=INTEGER},
+      </if>
+      <if test="svCreatetime != null">
+        sv_createtime = #{svCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svUpdatetime != null">
+        sv_updatetime = #{svUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svStatus != null">
+        sv_status = #{svStatus,jdbcType=INTEGER},
+      </if>
+      <if test="svStandardvalue != null">
+        sv_standardvalue = #{svStandardvalue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yh.domain.Standardvalue">
+    <!--@mbg.generated-->
+    update standardvalue
+    set sv_productid = #{svProductid,jdbcType=INTEGER},
+      sv_standardid = #{svStandardid,jdbcType=INTEGER},
+      sv_createtime = #{svCreatetime,jdbcType=TIMESTAMP},
+      sv_updatetime = #{svUpdatetime,jdbcType=TIMESTAMP},
+      sv_status = #{svStatus,jdbcType=INTEGER},
+      sv_standardvalue = #{svStandardvalue,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="standardValueMap" type="map">
+    <id property="id" column="id"></id>
+    <result property="standardName" column="standard_name"></result>
+    <result property="standardValue" column="sv_standardvalue"></result>
+  </resultMap>
+  <select id="selectStandardValueByProductId" resultMap="standardValueMap">
+    select standard_name,sv_standardvalue,standardvalue.id id from standard inner join standardvalue on standard.id=standardvalue.sv_standardid and standard.standard_productid=#{productId} and sv_status=0
+  </select>
+</mapper>

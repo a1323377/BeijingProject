@@ -257,7 +257,7 @@
                     var html="";
                     for(var i=0;i<data.data.skuInfo.length;i++){
                         html+="<div class=\"list clearfloat fl\">\n" +
-                            "\t\t\t\t\t<a href=\"pro-detail.html\">\n" +
+                            "\t\t\t\t\t<a href=\"pro-detail.html?skuId="+data.data.skuInfo[i].skuId+"&productId="+data.data.skuInfo[i].productId+"\">\n" +
                             "\t\t\t\t\t\t<div class=\"tu clearfloat\">\n" +
                             "\t\t\t\t\t\t\t<span></span>\n" +
                             "\t\t\t\t\t\t\t<img src=\""+data.data.skuInfo[i].imgSrc+"\"/>\n" +
@@ -294,7 +294,7 @@
                 });
                 for(var i=0;i<data.data.skuRush.length;i++){
                     $(".pension").append("<div class=\"list fl\">\n" +
-                        "<a href=\"pro-detail.html\">\n" +
+                        "<a href=\"pro-detail.html?skuId="+data.data.skuInfo[i].skuId+"&productId="+data.data.skuInfo[i].productId+"\">\n" +
                         "<img src=\""+data.data.skuRush[i].imgSrc+"\"/>\n" +
                         "<p class=\"tit\">"+data.data.skuRush[i].productName+"</p>\n" +
                         "<p class=\"fu-tit\">抢购价：<span>￥"+data.data.skuRush[i].activePrice+"</span></p>\n" +
@@ -310,7 +310,7 @@
                 var html="";
                 for(var i=0;i<data.data.skuInfo.length;i++){
                     html+="<div class=\"list clearfloat fl\">\n" +
-                        "\t\t\t\t\t<a href=\"pro-detail.html\">\n" +
+                        "\t\t\t\t\t<a href=\"pro-detail.html?skuId="+data.data.skuInfo[i].skuId+"&productId="+data.data.skuInfo[i].productId+"\">\n" +
                         "\t\t\t\t\t\t<div class=\"tu clearfloat\">\n" +
                         "\t\t\t\t\t\t\t<span></span>\n" +
                         "\t\t\t\t\t\t\t<img src=\""+data.data.skuInfo[i].imgSrc+"\"/>\n" +

@@ -23,4 +23,12 @@ public interface SkuStoreMapper {
     List<Map<String,String>> selectSkuOrderByCreateTime();
 
     List<Map<String,String>> selectSkuRush();
+
+    Map<String,String> selectSkuDetail(int skuId);
+
+    List<Map<String,String>> selectSkuScrollImg(int skuId);
+
+    List<Map<String,String>> selectSkuByProductId(int productId);
+
+    SkuStore selectSkuBySkuId(int skuId);
 }

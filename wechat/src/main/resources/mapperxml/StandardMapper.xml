@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.mapper.StandardMapper">
+  <resultMap id="BaseResultMap" type="com.yh.domain.Standard">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="standard_name" jdbcType="VARCHAR" property="standardName" />
+    <result column="standard_type" jdbcType="INTEGER" property="standardType" />
+    <result column="standard_productid" jdbcType="INTEGER" property="standardProductid" />
+    <result column="standard_createtime" jdbcType="TIMESTAMP" property="standardCreatetime" />
+    <result column="standard_updatetime" jdbcType="TIMESTAMP" property="standardUpdatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, standard_name, standard_type, standard_productid, standard_createtime, standard_updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from standard
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from standard
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Standard" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard (standard_name, standard_type, standard_productid, 
+      standard_createtime, standard_updatetime
+      )
+    values (#{standardName,jdbcType=VARCHAR}, #{standardType,jdbcType=INTEGER}, #{standardProductid,jdbcType=INTEGER}, 
+      #{standardCreatetime,jdbcType=TIMESTAMP}, #{standardUpdatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Standard" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="standardName != null">
+        standard_name,
+      </if>
+      <if test="standardType != null">
+        standard_type,
+      </if>
+      <if test="standardProductid != null">
+        standard_productid,
+      </if>
+      <if test="standardCreatetime != null">
+        standard_createtime,
+      </if>
+      <if test="standardUpdatetime != null">
+        standard_updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="standardName != null">
+        #{standardName,jdbcType=VARCHAR},
+      </if>
+      <if test="standardType != null">
+        #{standardType,jdbcType=INTEGER},
+      </if>
+      <if test="standardProductid != null">
+        #{standardProductid,jdbcType=INTEGER},
+      </if>
+      <if test="standardCreatetime != null">
+        #{standardCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="standardUpdatetime != null">
+        #{standardUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.Standard">
+    <!--@mbg.generated-->
+    update standard
+    <set>
+      <if test="standardName != null">
+        standard_name = #{standardName,jdbcType=VARCHAR},
+      </if>
+      <if test="standardType != null">
+        standard_type = #{standardType,jdbcType=INTEGER},
+      </if>
+      <if test="standardProductid != null">
+        standard_productid = #{standardProductid,jdbcType=INTEGER},
+      </if>
+      <if test="standardCreatetime != null">
+        standard_createtime = #{standardCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="standardUpdatetime != null">
+        standard_updatetime = #{standardUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yh.domain.Standard">
+    <!--@mbg.generated-->
+    update standard
+    set standard_name = #{standardName,jdbcType=VARCHAR},
+      standard_type = #{standardType,jdbcType=INTEGER},
+      standard_productid = #{standardProductid,jdbcType=INTEGER},
+      standard_createtime = #{standardCreatetime,jdbcType=TIMESTAMP},
+      standard_updatetime = #{standardUpdatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

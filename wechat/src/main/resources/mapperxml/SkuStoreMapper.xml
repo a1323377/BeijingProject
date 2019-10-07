@@ -179,9 +179,11 @@
         <result property="productName" column="product_name"></result>
         <result property="skuPrice" column="sku_price"></result>
         <result property="imgSrc" column="img_src"></result>
+        <result property="skuId" column="skuId"></result>
+        <result property="productId" column="sku_productid"></result>
     </resultMap>
   <select id="selectSkuOrderByCreateTime" resultMap="skuOrderByCreateTimeMap">
-      select product_name,min(sku_price) sku_price,img_src,img.id id,sku_createtime
+      select sku_productid, sku_store.id skuId, product_name,min(sku_price) sku_price,img_src,img.id id,sku_createtime
       from sku_store
       inner join product on sku_store.sku_productid=product.id
       INNER join img on sku_store.id=img.img_productid
@@ -194,13 +196,50 @@
     <result property="productName" column="product_name"></result>
     <result property="imgSrc" column="img_src"></result>
     <result property="activePrice" column="sku_activeprice"></result>
+      <result property="skuId" column="skuId"></result>
+      <result property="productId" column="sku_productid"></result>
   </resultMap>
   <select id="selectSkuRush" resultMap="selectSkuRushMap">
-    select product_name,sku_activeprice,img_src,sku_createtime,img.id
+    select sku_productid,sku_store.id skuId, product_name,sku_activeprice,img_src,sku_createtime,img.id
     from sku_store
       inner join product on sku_store.sku_productid=product.id
       INNER join img on sku_store.id=img.img_productid
       and img_status=0 and img_type=0 and product_status=1
     order by sku_createtime DESC;
   </select>
+    <resultMap id="skuDetailMap" type="map">
+        <id property="id" column="id"></id>
+        <result property="productName" column="product_name"></result>
+        <result property="minPrice" column="minprice"></result>
+        <result property="maxPrice" column="maxprice"></result>
+    </resultMap>
+    <select id="selectSkuDetail" resultMap="skuDetailMap">
+        select product.id id, product_name,min(sku_price) minprice,max(sku_price) maxprice
+        from sku_store inner join product on sku_store.sku_productid=product.id
+            and product_status=0 where product.id=#{skuId}
+    </select>
+    <resultMap id="skuScrollImgMap" type="map">
+        <id property="id" column="id"></id>
+        <result property="img" column="img_src"></result>
+    </resultMap>
+    <select id="selectSkuScrollImg" resultMap="skuScrollImgMap">
+        select img.id id,img_src from img inner join sku_store on sku_store.id=img.img_productid and sku_store.id=#{skuId} and img_type=1 and img_status=0
+    </select>
+    <resultMap id="skuByProductIdMap" type="map">
+        <id property="id" column="id"></id>
+        <result property="skuColor" column="sku_color"></result>
+        <result property="skuNum" column="sku_num"></result>
+        <result property="skuPrice" column="sku_price"></result>
+    </resultMap>
+    <select id="selectSkuByProductId" resultMap="skuByProductIdMap">
+        select id,sku_color,sku_num,sku_price from sku_store where sku_store.sku_productid=#{productId} and sku_status=0
+    </select>
+    <resultMap id="skuBySkuIdMap" type="com.yh.domain.SkuStore">
+        <id property="id" column="id"></id>
+        <result property="skuPrice" column="sku_price"></result>
+        <result property="skuNum" column="sku_num"></result>
+    </resultMap>
+    <select id="selectSkuBySkuId" resultMap="skuBySkuIdMap">
+        select sku_price,sku_num,id from sku_store where id=#{skuId}
+    </select>
 </mapper>
