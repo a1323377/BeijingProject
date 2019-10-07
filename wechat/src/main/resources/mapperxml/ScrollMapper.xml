@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.mapper.ScrollMapper">
+  <resultMap id="BaseResultMap" type="com.yh.domain.Scroll">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="scroll_id" jdbcType="INTEGER" property="scrollId" />
+    <result column="scroll_img" jdbcType="VARCHAR" property="scrollImg" />
+    <result column="scroll_src" jdbcType="VARCHAR" property="scrollSrc" />
+    <result column="scroll_status" jdbcType="INTEGER" property="scrollStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, scroll_id, scroll_img, scroll_src, scroll_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from scroll
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from scroll
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Scroll" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into scroll (scroll_id, scroll_img, scroll_src, 
+      scroll_status)
+    values (#{scrollId,jdbcType=INTEGER}, #{scrollImg,jdbcType=VARCHAR}, #{scrollSrc,jdbcType=VARCHAR}, 
+      #{scrollStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Scroll" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into scroll
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="scrollId != null">
+        scroll_id,
+      </if>
+      <if test="scrollImg != null">
+        scroll_img,
+      </if>
+      <if test="scrollSrc != null">
+        scroll_src,
+      </if>
+      <if test="scrollStatus != null">
+        scroll_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="scrollId != null">
+        #{scrollId,jdbcType=INTEGER},
+      </if>
+      <if test="scrollImg != null">
+        #{scrollImg,jdbcType=VARCHAR},
+      </if>
+      <if test="scrollSrc != null">
+        #{scrollSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="scrollStatus != null">
+        #{scrollStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.Scroll">
+    <!--@mbg.generated-->
+    update scroll
+    <set>
+      <if test="scrollId != null">
+        scroll_id = #{scrollId,jdbcType=INTEGER},
+      </if>
+      <if test="scrollImg != null">
+        scroll_img = #{scrollImg,jdbcType=VARCHAR},
+      </if>
+      <if test="scrollSrc != null">
+        scroll_src = #{scrollSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="scrollStatus != null">
+        scroll_status = #{scrollStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yh.domain.Scroll">
+    <!--@mbg.generated-->
+    update scroll
+    set scroll_id = #{scrollId,jdbcType=INTEGER},
+      scroll_img = #{scrollImg,jdbcType=VARCHAR},
+      scroll_src = #{scrollSrc,jdbcType=VARCHAR},
+      scroll_status = #{scrollStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="scrollOrderByCreateTimeMap" type="com.yh.domain.Scroll">
+    <id property="id" column="scroll_id"></id>
+    <result property="scrollImg" column="scroll_img"></result>
+    <result property="scrollSrc" column="scroll_src"></result>
+  </resultMap>
+  <select id="selectScrollOrderByCreateTime" resultMap="scrollOrderByCreateTimeMap">
+    select scroll_id,scroll_img,scroll_src,scroll_createtime from scroll where scroll_status=0 order by scroll_createtime DESC
+  </select>
+</mapper>
