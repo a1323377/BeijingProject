@@ -1,18 +1,12 @@
 package com.yh.domain;
 
-<<<<<<< HEAD
-=======
 import javax.persistence.Id;
 
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
 public class Img {
     /**
     * 表id
     */
-<<<<<<< HEAD
-=======
     @Id
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     private Integer id;
 
     /**
@@ -26,11 +20,8 @@ public class Img {
     private String imgSrc;
 
     /**
-<<<<<<< HEAD
     * sku_store表的id
-=======
     * 商品id
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     */
     private Integer imgProductid;
 
