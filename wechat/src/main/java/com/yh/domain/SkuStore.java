@@ -1,19 +1,13 @@
 package com.yh.domain;
 
-<<<<<<< HEAD
-=======
 import javax.persistence.Id;
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
 import java.util.Date;
 
 public class SkuStore {
     /**
     * 表id
     */
-<<<<<<< HEAD
-=======
     @Id
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     private Integer id;
 
     /**
@@ -42,11 +36,8 @@ public class SkuStore {
     private Integer skuPrice;
 
     /**
-<<<<<<< HEAD
     * 状态：0：上架有货；-1下架；1缺货
-=======
     * 状态
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     */
     private Integer skuStatus;
 
@@ -70,14 +61,11 @@ public class SkuStore {
     */
     private Date skuUpdatetime;
 
-<<<<<<< HEAD
-=======
     /**
     * 销售数量
     */
     private Integer skuSalecout;
 
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
     public Integer getId() {
         return id;
     }
@@ -165,8 +153,6 @@ public class SkuStore {
     public void setSkuUpdatetime(Date skuUpdatetime) {
         this.skuUpdatetime = skuUpdatetime;
     }
-<<<<<<< HEAD
-=======
 
     public Integer getSkuSalecout() {
         return skuSalecout;
@@ -175,5 +161,4 @@ public class SkuStore {
     public void setSkuSalecout(Integer skuSalecout) {
         this.skuSalecout = skuSalecout;
     }
->>>>>>> 7c693f6cafa87bf71c7972c784d59491b780f54d
 }
