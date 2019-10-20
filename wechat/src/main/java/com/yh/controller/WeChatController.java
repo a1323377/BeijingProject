@@ -5,12 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.yh.commons.ResponseJson;
 import com.yh.commons.WeChatCommon;
 import com.yh.domain.Scroll;
+import com.yh.domain.Shoppingcar;
 import com.yh.domain.SkuStore;
 import com.yh.domain.WxUser;
-import com.yh.service.ScrollService;
-import com.yh.service.SkuStoreService;
-import com.yh.service.StandardValueService;
-import com.yh.service.WxUserService;
+import com.yh.service.*;
 import com.yh.utils.EncryptUtil;
 import com.yh.utils.WeChatUtil;
 
@@ -35,6 +33,8 @@ public class WeChatController {
     SkuStoreService skuStoreService;
     @Resource(name = "standardValueServiceImpl")
     StandardValueService standardValueService;
+    @Resource(name = "shoppingCarServiceImpl")
+    ShoppingCarService shoppingCarService;
     /***
      * 微信平台验证服务器
      * @param weChatCommon
@@ -147,6 +147,37 @@ public class WeChatController {
         dataMap.put("skuScrollImg",skuScrollImg);
         dataMap.put("sku",sku);
         dataMap.put("standardValue",standardValue);
+        return  new ResponseJson(0,"success",dataMap);
+    }
+    @RequestMapping(value = "verifylogin",method = RequestMethod.GET)
+    public String verifyLogin(HttpSession session){
+        if(session.getAttribute("d_wxUser")!=null){
+            return "true";
+        }
+        return "false";
+    }
+
+    /**
+     * 加入购物车
+     * @param shoppingcar
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "addshoppingcar",method = RequestMethod.POST)
+    public ResponseJson addShoppingCar(Shoppingcar shoppingcar, HttpSession session){
+        shoppingcar.setCarUserid(((WxUser)session.getAttribute("d_wxUser")).getId());
+        int result=shoppingCarService.insertShoppingCar(shoppingcar);
+        if(result>0){
+            return new ResponseJson(0,"success",null);
+        }else {
+            return new ResponseJson(1,"faild",null);
+        }
+    }
+    @RequestMapping(value = "getmycar" ,method = RequestMethod.GET)
+    public ResponseJson getMyCar(HttpSession session){
+        List<Map<String,String>> mycar=shoppingCarService.getMyCar(((WxUser)session.getAttribute("d_wxUser")).getId());
+        Map<String,Object> dataMap=new HashMap<>();
+        dataMap.put("mycar",mycar);
         return  new ResponseJson(0,"success",dataMap);
     }
 }

@@ -14,21 +14,30 @@ function hasParam(href,paramName){
 }
 $(function(){
     var code =hasParam(window.location.href,"code");
-    if(code!="") {
-        $.ajax({
-            type: "post",
-            url: "http://jusavng.hn3.mofasuidao.cn/wechat/code.do",
-            data: {"code": code},
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                alert("111");
-            },
-            error: function () {
-                alert("222");
+    $.ajax({
+        type:"get",
+        url:"http://jusavng.hn3.mofasuidao.cn/wechat/verifylogin.do",
+        success:function (data) {
+            if(data=="false"){
+                if(code!="") {
+                    $.ajax({
+                        type: "post",
+                        url: "http://jusavng.hn3.mofasuidao.cn/wechat/code.do",
+                        data: {"code": code},
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            alert("111");
+                        },
+                        error: function () {
+                            alert("222");
+                        }
+                    });
+                }
             }
-        });
-    }
+        }
+    })
+
 
 	//计算内容上下padding
 	reContPadding({main:"#main",header:"#header",footer:"#footer"});

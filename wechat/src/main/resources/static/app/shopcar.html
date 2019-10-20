@@ -47,49 +47,58 @@
 	    </header>
 	    <div id="main" class="mui-clearfix">
 	    	<div class="contaniner fixed-contb">
-				<section class="shopcar">
+				<section class="shopcar" id="carBox">
+					<!--<div style="float: left;margin-top: 10px;">
 					<div class="shopcar-checkbox">
-						<label for="shopcar" onselectstart="return false"></label>
-						<input type="checkbox" id="shopcar"/>
+						<label ></label>
+
 					</div>
-					<figure><img src="upload/2.jpg"/></figure>
+					<figure><img src="images/ad-001.png"/></figure>
 					<div class="shopclist clearfloat fl">
-						<p class="tit">XXX夏季女装性感流行</p>
+						<p class="tit">衣服</p>
 						<p class="fu-tit">
-							粉红性感流行L尺寸
+							尺寸：xl
 						</p>
 						<div class="bottom clearfloat">
 							<span class="fl hicon">￥299.00</span>
-							<span class="fl huicon">￥308</span>
-							<span class="fl sjzx">手机专享价</span>
+							<span class="fr shu">×1</span>
+						</div>
+					</div></div>
+					<div style="float: left;">
+					<div class="shopcar-checkbox">
+						<label ></label>
+
+					</div>
+					<figure><img src="images/ad-001.png"/></figure>
+					<div class="shopclist clearfloat fl">
+						<p class="tit">衣服</p>
+						<p class="fu-tit">
+							尺寸：xl
+						</p>
+						<div class="bottom clearfloat">
+							<span class="fl hicon">￥299.00</span>
 							<span class="fr shu">×1</span>
 						</div>
 					</div>
+					</div>-->
 				</section>
 				
 				<section class="shopcar shopcartwo">
 					<div class="shopcar-checkbox">
-						<label for="shopcar" onselectstart="return false"></label>
-						<input type="checkbox" id="shopcar"/>
+						<div>
+							<label for="shopcar" onselectstart="return false"></label>
+							<input type="checkbox" id="shopcar"/>
+						</div>
 					</div>
 					<span class="fl qxuan">全选</span>
 					<a href="confirm.html" class="jiesuan clearfloat fr box-s">
 						去结算
 					</a>
-					<p class="fr heji"><span>合计：</span>￥598.00</p>					
+					<p class="fr heji"><span>合计：</span>￥0.00</p>
 				</section>
 				<!--去结算-->
 				
 			</div>
-			<script type="text/javascript">
-				$(".shopcar-checkbox label").on('touchstart',function(){
-					if($(this).hasClass('shopcar-checkd')){
-						$(".shopcar-checkbox label").removeClass("shopcar-checkd")
-					}else{
-						$(".shopcar-checkbox label").addClass("shopcar-checkd")
-					}
-				})
-			</script>
 	    </div>
 	    
 	    <footer class="page-footer fixed-footer" id="footer">
@@ -132,7 +141,78 @@
 	<!--插件-->
 	<script src="js/global.js"></script>
 	<script >
+		/*解决js计算小数除法精度问题*/
+        function accDiv(arg1,arg2){
+            var t1=0,t2=0,r1,r2;
+            try{t1=arg1.toString().split(".")[1].length}catch(e){}
+            try{t2=arg2.toString().split(".")[1].length}catch(e){}
+            with(Math){
+                r1=Number(arg1.toString().replace(".",""))
+                r2=Number(arg2.toString().replace(".",""))
+                return (r1/r2)*pow(10,t2-t1);
+            }
+        }
+        /*------------------*/
+        var totalPrice=0;
+        $("#shopcar").prev().on('touchstart',function(){
+            $(this).toggleClass("shopcar-checkd");
+            totalPrice=0;
+            if($(this).hasClass("shopcar-checkd")){
+                $(".shopcar-checkbox>label").addClass("shopcar-checkd");
+                $(".hicon").each(function () {
+					var price=parseFloat($(this).find("span").text());
+					var num=parseInt($(this).next().find("span").text());
+                	totalPrice=accAdd(totalPrice,price*100*num);
+                });
+			}else{
+                $(".shopcar-checkbox>label").removeClass("shopcar-checkd");
+			}
+            $(".heji").text(accDiv(totalPrice,100));
+        });
 	    $(function () {
+	        totalPrice=0;
+	        getmycar();
+	        function getmycar(){
+	            $.ajax({
+					type:"get",
+					url:"http://jusavng.hn3.mofasuidao.cn/wechat/getmycar.do",
+					async:false,
+					success:function (data) {
+						var car="";
+						alert(data.data.mycar);
+						for(var i=0;i<data.data.mycar.length;i++){
+						    car+="<div style='float: left;margin-top: 25px;min-width:100%;'><div class=\"shopcar-checkbox\">" +
+                                "<label for=\"shopcar\" onselectstart=\"return false\"></label>" +
+                                "<input type=\"checkbox\" name=\""+data.data.mycar[i].id+"\"/>" +
+                                "</div>" +
+                                "<div style='min-width:100%;'><figure><img src=\""+data.data.mycar[i].img_src+"\" alt='图片飞走啦'/></figure></div>" +
+                                "<div class=\"shopclist clearfloat fl\">" +
+                                "<p class=\"tit\">"+data.data.mycar[i].product_name+"</p>" +
+                                "<p class=\"fu-tit\">" +
+                                data.data.mycar[i].car_standard+
+                                "</p>"+
+                                "<div class=\"bottom clearfloat\">" +
+                                "<span class=\"fl hicon\">￥<span>"+parseInt(data.data.mycar[i].sku_price)/100+"</span></span>"+
+                                "<span class=\"fr shu\">×<span>"+data.data.mycar[i].car_num+"</span></span>" +
+                                "</div>"+
+                                "</div></div>";
+						}
+						$("#carBox").append(car);
+                        $(".shopcar-checkbox>label").on('touchstart',function () {
+                            $(this).toggleClass("shopcar-checkd");
+                            var price=parseFloat($(this).parent().parent().children().find(".hicon").find("span").text());
+                            var shu=parseInt($(this).parent().parent().children().find(".shu").find("span").text());
+                            if($(this).hasClass("shopcar-checkd")){
+                                totalPrice+=price*100*shu;
+							}else{
+                                totalPrice-=price*100*shu;
+							}
+                            $(".heji").text(accDiv(totalPrice,100));
+                        });
+                    }
+				});
+			}
+
 	        var banner = new Swiper('.banner',{
 	            autoplay: 5000,
 	            pagination : '.swiper-pagination',

@@ -92,7 +92,7 @@ public class WeChatUtil {
         JSONObject menub=new JSONObject();
         menub.put("name","购物车");
         menub.put("type","view");
-        menub.put("url","https://open.weixin.qq.com/connect/oauth2/authorize?appid=\"+WeChatUtil.APPID+\"&redirect_uri=\"+EncryptUtil.encodingUrl(\"http://jusavng.hn3.mofasuidao.cn/app/shopcar.html\")+\"?&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+        menub.put("url","https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeChatUtil.APPID+"&redirect_uri="+EncryptUtil.encodingUrl("http://jusavng.hn3.mofasuidao.cn/app/shopcar.html")+"?&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
         first.put(menub);
         JSONObject menuc=new JSONObject();
         menuc.put("name","个人中心");
