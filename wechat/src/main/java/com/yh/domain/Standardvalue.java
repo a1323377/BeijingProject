@@ -29,6 +29,7 @@ public class Standardvalue {
     private Date svUpdatetime;
 
     /**
+    * 状态：0：上架有货；-1下架；1缺货
     * 状态
     */
     private Integer svStatus;

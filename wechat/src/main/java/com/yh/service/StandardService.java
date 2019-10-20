@@ -1,11 +1,9 @@
-package com.yh.mapper;
+package com.yh.service;
 
 import com.yh.domain.Standard;
+public interface StandardService{
 
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
-public interface StandardMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Standard record);
@@ -17,4 +15,5 @@ public interface StandardMapper {
     int updateByPrimaryKeySelective(Standard record);
 
     int updateByPrimaryKey(Standard record);
+
 }

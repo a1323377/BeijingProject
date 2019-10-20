@@ -36,6 +36,7 @@ public class SkuStore {
     private Integer skuPrice;
 
     /**
+    * 状态：0：上架有货；-1下架；1缺货
     * 状态
     */
     private Integer skuStatus;

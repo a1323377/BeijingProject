@@ -1,6 +1,7 @@
 package com.yh.mapper;
 
 import com.yh.domain.SkuStore;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

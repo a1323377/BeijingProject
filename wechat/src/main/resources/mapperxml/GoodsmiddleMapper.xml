@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.mapper.GoodsmiddleMapper">
+  <resultMap id="BaseResultMap" type="com.yh.domain.Goodsmiddle">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="middle_productid" jdbcType="INTEGER" property="middleProductid" />
+    <result column="middle_standard" jdbcType="INTEGER" property="middleStandard" />
+    <result column="middle_standardvalue" jdbcType="INTEGER" property="middleStandardvalue" />
+    <result column="middle_storeid" jdbcType="INTEGER" property="middleStoreid" />
+    <result column="middle_createtime" jdbcType="TIMESTAMP" property="middleCreatetime" />
+    <result column="middle_status" jdbcType="INTEGER" property="middleStatus" />
+    <result column="middle_updatetime" jdbcType="TIMESTAMP" property="middleUpdatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, middle_productid, middle_standard, middle_standardvalue, middle_storeid, middle_createtime, 
+    middle_status, middle_updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from goodsmiddle
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from goodsmiddle
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Goodsmiddle" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into goodsmiddle (middle_productid, middle_standard, 
+      middle_standardvalue, middle_storeid, middle_createtime, 
+      middle_status, middle_updatetime)
+    values (#{middleProductid,jdbcType=INTEGER}, #{middleStandard,jdbcType=INTEGER}, 
+      #{middleStandardvalue,jdbcType=INTEGER}, #{middleStoreid,jdbcType=INTEGER}, #{middleCreatetime,jdbcType=TIMESTAMP}, 
+      #{middleStatus,jdbcType=INTEGER}, #{middleUpdatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Goodsmiddle" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into goodsmiddle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="middleProductid != null">
+        middle_productid,
+      </if>
+      <if test="middleStandard != null">
+        middle_standard,
+      </if>
+      <if test="middleStandardvalue != null">
+        middle_standardvalue,
+      </if>
+      <if test="middleStoreid != null">
+        middle_storeid,
+      </if>
+      <if test="middleCreatetime != null">
+        middle_createtime,
+      </if>
+      <if test="middleStatus != null">
+        middle_status,
+      </if>
+      <if test="middleUpdatetime != null">
+        middle_updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="middleProductid != null">
+        #{middleProductid,jdbcType=INTEGER},
+      </if>
+      <if test="middleStandard != null">
+        #{middleStandard,jdbcType=INTEGER},
+      </if>
+      <if test="middleStandardvalue != null">
+        #{middleStandardvalue,jdbcType=INTEGER},
+      </if>
+      <if test="middleStoreid != null">
+        #{middleStoreid,jdbcType=INTEGER},
+      </if>
+      <if test="middleCreatetime != null">
+        #{middleCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="middleStatus != null">
+        #{middleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="middleUpdatetime != null">
+        #{middleUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.Goodsmiddle">
+    <!--@mbg.generated-->
+    update goodsmiddle
+    <set>
+      <if test="middleProductid != null">
+        middle_productid = #{middleProductid,jdbcType=INTEGER},
+      </if>
+      <if test="middleStandard != null">
+        middle_standard = #{middleStandard,jdbcType=INTEGER},
+      </if>
+      <if test="middleStandardvalue != null">
+        middle_standardvalue = #{middleStandardvalue,jdbcType=INTEGER},
+      </if>
+      <if test="middleStoreid != null">
+        middle_storeid = #{middleStoreid,jdbcType=INTEGER},
+      </if>
+      <if test="middleCreatetime != null">
+        middle_createtime = #{middleCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="middleStatus != null">
+        middle_status = #{middleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="middleUpdatetime != null">
+        middle_updatetime = #{middleUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yh.domain.Goodsmiddle">
+    <!--@mbg.generated-->
+    update goodsmiddle
+    set middle_productid = #{middleProductid,jdbcType=INTEGER},
+      middle_standard = #{middleStandard,jdbcType=INTEGER},
+      middle_standardvalue = #{middleStandardvalue,jdbcType=INTEGER},
+      middle_storeid = #{middleStoreid,jdbcType=INTEGER},
+      middle_createtime = #{middleCreatetime,jdbcType=TIMESTAMP},
+      middle_status = #{middleStatus,jdbcType=INTEGER},
+      middle_updatetime = #{middleUpdatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

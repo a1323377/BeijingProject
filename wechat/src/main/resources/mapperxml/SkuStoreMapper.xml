@@ -19,6 +19,7 @@
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, sku_productid, sku_middleid, sku_color, sku_num, sku_price, sku_status, sku_activeprice, 
+    sku_saleprice, sku_createtime, sku_updatetime
     sku_saleprice, sku_createtime, sku_updatetime, sku_salecout
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -38,6 +39,11 @@
     insert into sku_store (sku_productid, sku_middleid, sku_color, 
       sku_num, sku_price, sku_status, 
       sku_activeprice, sku_saleprice, sku_createtime, 
+      sku_updatetime)
+    values (#{skuProductid,jdbcType=INTEGER}, #{skuMiddleid,jdbcType=INTEGER}, #{skuColor,jdbcType=VARCHAR}, 
+      #{skuNum,jdbcType=INTEGER}, #{skuPrice,jdbcType=INTEGER}, #{skuStatus,jdbcType=INTEGER}, 
+      #{skuActiveprice,jdbcType=INTEGER}, #{skuSaleprice,jdbcType=INTEGER}, #{skuCreatetime,jdbcType=TIMESTAMP}, 
+      #{skuUpdatetime,jdbcType=TIMESTAMP})
       sku_updatetime, sku_salecout)
     values (#{skuProductid,jdbcType=INTEGER}, #{skuMiddleid,jdbcType=INTEGER}, #{skuColor,jdbcType=VARCHAR}, 
       #{skuNum,jdbcType=INTEGER}, #{skuPrice,jdbcType=INTEGER}, #{skuStatus,jdbcType=INTEGER}, 
@@ -170,6 +176,9 @@
       sku_activeprice = #{skuActiveprice,jdbcType=INTEGER},
       sku_saleprice = #{skuSaleprice,jdbcType=INTEGER},
       sku_createtime = #{skuCreatetime,jdbcType=TIMESTAMP},
+      sku_updatetime = #{skuUpdatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
       sku_updatetime = #{skuUpdatetime,jdbcType=TIMESTAMP},
       sku_salecout = #{skuSalecout,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

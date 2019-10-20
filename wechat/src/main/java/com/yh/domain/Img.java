@@ -20,6 +20,7 @@ public class Img {
     private String imgSrc;
 
     /**
+    * sku_store表的id
     * 商品id
     */
     private Integer imgProductid;

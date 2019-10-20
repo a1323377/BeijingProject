@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.mapper.BrandMapper">
+  <resultMap id="BaseResultMap" type="com.yh.domain.Brand">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="brand_logo" jdbcType="VARCHAR" property="brandLogo" />
+    <result column="brand_description" jdbcType="VARCHAR" property="brandDescription" />
+    <result column="brand_nation" jdbcType="VARCHAR" property="brandNation" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, brand_name, brand_logo, brand_description, brand_nation
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from brand
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from brand
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Brand" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into brand (brand_name, brand_logo, brand_description, 
+      brand_nation)
+    values (#{brandName,jdbcType=VARCHAR}, #{brandLogo,jdbcType=VARCHAR}, #{brandDescription,jdbcType=VARCHAR}, 
+      #{brandNation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yh.domain.Brand" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into brand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="brandName != null">
+        brand_name,
+      </if>
+      <if test="brandLogo != null">
+        brand_logo,
+      </if>
+      <if test="brandDescription != null">
+        brand_description,
+      </if>
+      <if test="brandNation != null">
+        brand_nation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null">
+        #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDescription != null">
+        #{brandDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="brandNation != null">
+        #{brandNation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yh.domain.Brand">
+    <!--@mbg.generated-->
+    update brand
+    <set>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null">
+        brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDescription != null">
+        brand_description = #{brandDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="brandNation != null">
+        brand_nation = #{brandNation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yh.domain.Brand">
+    <!--@mbg.generated-->
+    update brand
+    set brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      brand_description = #{brandDescription,jdbcType=VARCHAR},
+      brand_nation = #{brandNation,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

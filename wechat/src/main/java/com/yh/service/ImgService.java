@@ -1,11 +1,9 @@
-package com.yh.mapper;
+package com.yh.service;
 
 import com.yh.domain.Img;
+public interface ImgService{
 
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
-public interface ImgMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Img record);
@@ -17,4 +15,5 @@ public interface ImgMapper {
     int updateByPrimaryKeySelective(Img record);
 
     int updateByPrimaryKey(Img record);
+
 }
